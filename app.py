@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from datetime import datetime
 from stellar_sdk import Keypair, Server, TransactionBuilder, Network, Asset, exceptions
 import firebase_admin
@@ -7,8 +7,6 @@ from firebase_admin import credentials, firestore
 import requests
 from flask_cors import CORS
 from dotenv import load_dotenv
-from bitcoinlib.wallets import Wallet
-from eth_account import Account
 from util_wallet import calculate_crypto_amounts, get_crypto_data, keep_payment, calculate_inr_balances, get_stellar_balance, send_payment_and_show_balances, get_exchange_rate, get_crypto_price_in_inr
 import uuid
 from concurrent.futures import ThreadPoolExecutor
@@ -35,7 +33,7 @@ def is_valid_stellar_address(address):
 
 @app.route('/')
 def index():
-    return jsonify({"message": "Welcome to the Stellar Wallet API!"})
+    return render_template('index.html')
 
 @app.route('/live-rates', methods=['POST'])
 def convert_crypto():
